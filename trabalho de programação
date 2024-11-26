@@ -1,0 +1,243 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/raalmeidaa/faculmec/blob/main/trabalho%20de%20programa%C3%A7%C3%A3o\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Problema: Paradas frequentes em máquinas CNC devido à falta de manutenção preventiva\n",
+        "\n",
+        "Uma empresa de fabricação que utiliza máquinas CNC para produção de componentes metálicos está enfrentando problemas constantes na produção. As paradas estão impactando os prazos de entrega e geração\n",
+        "\n",
+        "Causas identificadas:\n",
+        "Falta de planejamento de manutenção preventiva:Como\n",
+        "Desgaste das peças críticas:Co\n",
+        "Treinamento insuficiente dos operadores:Peq\n",
+        "Sobrecarga das máquinas:UM\n",
+        "Impactos:\n",
+        "Atrasos nos pedidos: Interrupções de\n",
+        "Custodios Cedrito: Repar\n",
+        "Perda de confiança dos clientes: Falhas\n",
+        "Redução da vida útil dos equipamentos: M\n",
+        "Esse problema exige uma revisão nos processos de manutenção e na gestão de operação do CNC"
+      ],
+      "metadata": {
+        "id": "3O8yGARoE7Ye"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "Procedimentos de Setup para Máquinas Industriais CNC como exemplo\n",
+        "1. Preparação Inicial\n",
+        "\n",
+        "Verifique o cronograma de produção para identificar o próximo produto a ser fabricado.\n",
+        "\n",
+        "Inspecione a máquina para garantir que ela esteja limpa e livre de resíduos de operações anteriores.\n",
+        "\n",
+        "Certifique-se de que as ferramentas estejam organizadas e em boas condições (ex.: fresas, brocas, etc.).\n",
+        "\n",
+        "2. Verificação de Matéria-Prima\n",
+        "\n",
+        "Confirme se o material a ser utilizado está disponível e atenda às especificações necessárias como dimenções etc\n",
+        "\n",
+        "3. Configuração da Máquina\n",
+        "\n",
+        "Configure as ferramentas conforme especificado (diâmetros, comprimentos e ângulos corretos).\n",
+        "\n",
+        "Ajuste os parâmetros de corte (velocidade do fuso, avanço e profundidade)\n",
+        "\n",
+        "4. Testes e Ajustes\n",
+        "\n",
+        "Verifique o alinhamento e a fixação da matéria-prima e da ferramenta.\n",
+        "\n",
+        "5. Segurança\n",
+        "\n",
+        "Alerte a equipe na próxima vez sobre o início da operação.\n",
+        "\n",
+        "Utilize os EPIs adequados óculos de segurança, luvas, protetor auricular, etc.\n",
+        "\n",
+        "6. Início da Produção\n",
+        "\n",
+        "Inicie a operação monitorando os primeiros ciclos para garantir que a peça produzida esteja dentro das especificações\n",
+        "\n",
+        "Meça as dimensões da peça inicial usando instrumentos de precisão (paquímetro, micrômetro, etc.) para ajustes finos, se necessário.\n",
+        "\n",
+        "Confirme que os rejeitos estão sendo descartados corretamente.\n",
+        "\n",
+        "7. Registro de Dados\n",
+        "\n",
+        "Registre as condições de configuração, como ferramentas utilizadas, parâmetros de corte e observações importantes.\n",
+        "\n",
+        "Informe o turno ou operador seguinte sobre qualquer detalhe"
+      ],
+      "metadata": {
+        "id": "4N8OK4NIGFvd"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "rVRDpgriFuxF"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import json\n",
+        "from datetime import datetime\n",
+        "\n",
+        "# Arquivo para armazenar dados (persistência simples)\n",
+        "FILE = \"checklist_turno.json\"\n",
+        "\n",
+        "# Função para carregar dados do arquivo\n",
+        "def carregar_dados():\n",
+        "    try:\n",
+        "        with open(FILE, \"r\") as f:\n",
+        "            return json.load(f)\n",
+        "    except FileNotFoundError:\n",
+        "        return {\"procedimentos\": [], \"relatorios\": []}\n",
+        "\n",
+        "# Função para salvar dados no arquivo\n",
+        "def salvar_dados(dados):\n",
+        "    try:\n",
+        "        with open(FILE, \"w\") as f:\n",
+        "            json.dump(dados, f, indent=4)\n",
+        "    except Exception as e:\n",
+        "        print(f\"Erro ao salvar os dados: {e}\")\n",
+        "\n",
+        "# Função para registrar um novo procedimento\n",
+        "def cadastrar_procedimento():\n",
+        "    procedimento = input(\"Descreva o procedimento de setup: \").strip()\n",
+        "    if procedimento:\n",
+        "        dados[\"procedimentos\"].append(procedimento)\n",
+        "        salvar_dados(dados)\n",
+        "        print(\"Procedimento cadastrado com sucesso.\")\n",
+        "    else:\n",
+        "        print(\"Procedimento inválido. Tente novamente.\")\n",
+        "\n",
+        "# Função para listar os procedimentos de setup\n",
+        "def listar_procedimentos():\n",
+        "    if dados[\"procedimentos\"]:\n",
+        "        print(\"\\nProcedimentos de Setup:\")\n",
+        "        for idx, proc in enumerate(dados[\"procedimentos\"], 1):\n",
+        "            print(f\"{idx}. {proc}\")\n",
+        "        print()\n",
+        "    else:\n",
+        "        print(\"\\nNenhum procedimento cadastrado.\\n\")\n",
+        "\n",
+        "# Função para registrar um relatório de turno\n",
+        "def registrar_relatorio():\n",
+        "    turno = input(\"Informe o turno (Diurno/Noturno): \").strip()\n",
+        "    if turno.lower() not in [\"diurno\", \"noturno\"]:\n",
+        "        print(\"Turno inválido. Tente novamente.\")\n",
+        "        return\n",
+        "\n",
+        "    problemas = input(\"Houve problemas? Descreva ou digite 'Nenhum': \").strip()\n",
+        "    acoes = input(\"Que ações foram realizadas para solucionar os problemas? \").strip()\n",
+        "\n",
+        "    relatorio = {\n",
+        "        \"turno\": turno,\n",
+        "        \"problemas\": problemas,\n",
+        "        \"acoes\": acoes,\n",
+        "        \"data\": datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\")\n",
+        "    }\n",
+        "    dados[\"relatorios\"].append(relatorio)\n",
+        "    salvar_dados(dados)\n",
+        "    print(\"Relatório registrado com sucesso.\")\n",
+        "\n",
+        "# Função para listar relatórios registrados\n",
+        "def listar_relatorios():\n",
+        "    if dados[\"relatorios\"]:\n",
+        "        print(\"\\nRelatórios de Turno:\")\n",
+        "        for relatorio in dados[\"relatorios\"]:\n",
+        "            print(f\"Data: {relatorio['data']}\")\n",
+        "            print(f\"Turno: {relatorio['turno']}\")\n",
+        "            print(f\"Problemas: {relatorio['problemas']}\")\n",
+        "            print(f\"Ações: {relatorio['acoes']}\\n\")\n",
+        "    else:\n",
+        "        print(\"\\nNenhum relatório registrado.\\n\")\n",
+        "\n",
+        "# Menu principal\n",
+        "dados = carregar_dados()\n",
+        "\n",
+        "while True:\n",
+        "    print(\"\\n===== Sistema de Checklist e Relatórios =====\")\n",
+        "    print(\"1. Cadastrar procedimento de setup\")\n",
+        "    print(\"2. Listar procedimentos de setup\")\n",
+        "    print(\"3. Registrar relatório de turno\")\n",
+        "    print(\"4. Listar relatórios de turno\")\n",
+        "    print(\"5. Sair\")\n",
+        "\n",
+        "    opcao = input(\"Escolha uma opção: \").strip()\n",
+        "\n",
+        "    if opcao == \"1\":\n",
+        "        cadastrar_procedimento()\n",
+        "    elif opcao == \"2\":\n",
+        "        listar_procedimentos()\n",
+        "    elif opcao == \"3\":\n",
+        "        registrar_relatorio()\n",
+        "    elif opcao == \"4\":\n",
+        "        listar_relatorios()\n",
+        "    elif opcao == \"5\":\n",
+        "        print(\"Encerrando o sistema...\")\n",
+        "        break\n",
+        "    else:\n",
+        "        print(\"Opção inválida. Tente novamente.\")\n"
+      ],
+      "metadata": {
+        "id": "xpPKtS7VFRE-",
+        "outputId": "556745fd-c5eb-4dc6-f384-d37907d6ec8c",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "===== Sistema de Checklist e Relatórios =====\n",
+            "1. Cadastrar procedimento de setup\n",
+            "2. Listar procedimentos de setup\n",
+            "3. Registrar relatório de turno\n",
+            "4. Listar relatórios de turno\n",
+            "5. Sair\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "bDHpPk11UyLa"
+      }
+    }
+  ],
+  "metadata": {
+    "colab": {
+      "name": "Olá, este é o Colaboratory",
+      "toc_visible": true,
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "display_name": "Python 3",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
