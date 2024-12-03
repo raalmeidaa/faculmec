@@ -1,0 +1,155 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/raalmeidaa/faculmec/blob/main/trabalho%20de%20programa%C3%A7%C3%A3o%2003%20/12/2024\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import json\n",
+        "from datetime import datetime\n",
+        "\n",
+        "# Arquivo para armazenar dados (persistência simples)\n",
+        "FILE = \"checklist_turno.json\"\n",
+        "\n",
+        "# Função para carregar dados do arquivo\n",
+        "def carregar_dados():\n",
+        "    try:\n",
+        "        with open(FILE, \"r\") as f:\n",
+        "            return json.load(f)\n",
+        "    except FileNotFoundError:\n",
+        "        return {\"procedimentos\": [], \"relatorios\": []}\n",
+        "\n",
+        "# Função para salvar dados no arquivo\n",
+        "def salvar_dados(dados):\n",
+        "    try:\n",
+        "        with open(FILE, \"w\") as f:\n",
+        "            json.dump(dados, f, indent=4)\n",
+        "    except Exception as e:\n",
+        "        print(f\"Erro ao salvar os dados: {e}\")\n",
+        "\n",
+        "# Função para registrar um novo procedimento\n",
+        "def cadastrar_procedimento():\n",
+        "    procedimento = input(\"Descreva o procedimento de setup: \").strip()\n",
+        "    if procedimento:\n",
+        "        dados[\"procedimentos\"].append(procedimento)\n",
+        "        salvar_dados(dados)\n",
+        "        print(\"Procedimento cadastrado com sucesso.\")\n",
+        "    else:\n",
+        "        print(\"Procedimento inválido. Tente novamente.\")\n",
+        "\n",
+        "# Função para listar os procedimentos de setup\n",
+        "def listar_procedimentos():\n",
+        "    if dados[\"procedimentos\"]:\n",
+        "        print(\"\\nProcedimentos de Setup:\")\n",
+        "        for idx, proc in enumerate(dados[\"procedimentos\"], 1):\n",
+        "            print(f\"{idx}. {proc}\")\n",
+        "        print()\n",
+        "    else:\n",
+        "        print(\"\\nNenhum procedimento cadastrado.\\n\")\n",
+        "\n",
+        "# Função para registrar um relatório de turno\n",
+        "def registrar_relatorio():\n",
+        "    turno = input(\"Informe o turno (Diurno/Noturno): \").strip()\n",
+        "    if turno.lower() not in [\"diurno\", \"noturno\"]:\n",
+        "        print(\"Turno inválido. Tente novamente.\")\n",
+        "        return\n",
+        "\n",
+        "    problemas = input(\"Houve problemas? Descreva ou digite 'Nenhum': \").strip()\n",
+        "    acoes = input(\"Que ações foram realizadas para solucionar os problemas? \").strip()\n",
+        "\n",
+        "    relatorio = {\n",
+        "        \"turno\": turno,\n",
+        "        \"problemas\": problemas,\n",
+        "        \"acoes\": acoes,\n",
+        "        \"data\": datetime.now().strftime(\"%Y-%m-%d %H:%M:%S\")\n",
+        "    }\n",
+        "    dados[\"relatorios\"].append(relatorio)\n",
+        "    salvar_dados(dados)\n",
+        "    print(\"Relatório registrado com sucesso.\")\n",
+        "\n",
+        "# Função para listar relatórios registrados\n",
+        "def listar_relatorios():\n",
+        "    if dados[\"relatorios\"]:\n",
+        "        print(\"\\nRelatórios de Turno:\")\n",
+        "        for relatorio in dados[\"relatorios\"]:\n",
+        "            print(f\"Data: {relatorio['data']}\")\n",
+        "            print(f\"Turno: {relatorio['turno']}\")\n",
+        "            print(f\"Problemas: {relatorio['problemas']}\")\n",
+        "            print(f\"Ações: {relatorio['acoes']}\\n\")\n",
+        "    else:\n",
+        "        print(\"\\nNenhum relatório registrado.\\n\")\n",
+        "\n",
+        "# Menu principal\n",
+        "dados = carregar_dados()\n",
+        "\n",
+        "while True:\n",
+        "    print(\"\\n===== Sistema de Checklist e Relatórios =====\")\n",
+        "    print(\"1. Cadastrar procedimento de setup\")\n",
+        "    print(\"2. Listar procedimentos de setup\")\n",
+        "    print(\"3. Registrar relatório de turno\")\n",
+        "    print(\"4. Listar relatórios de turno\")\n",
+        "    print(\"5. Sair\")\n",
+        "\n",
+        "    opcao = input(\"Escolha uma opção: \").strip()\n",
+        "\n",
+        "    if opcao == \"1\":\n",
+        "        cadastrar_procedimento()\n",
+        "    elif opcao == \"2\":\n",
+        "        listar_procedimentos()\n",
+        "    elif opcao == \"3\":\n",
+        "        registrar_relatorio()\n",
+        "    elif opcao == \"4\":\n",
+        "        listar_relatorios()\n",
+        "    elif opcao == \"5\":\n",
+        "        print(\"Encerrando o sistema...\")\n",
+        "        break\n",
+        "    else:\n",
+        "        print(\"Opção inválida. Tente novamente.\")\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "OQXApvdiUfBD",
+        "outputId": "bcfaef97-6a65-4163-f0cd-efdd3ccfa7ee"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "===== Sistema de Checklist e Relatórios =====\n",
+            "1. Cadastrar procedimento de setup\n",
+            "2. Listar procedimentos de setup\n",
+            "3. Registrar relatório de turno\n",
+            "4. Listar relatórios de turno\n",
+            "5. Sair\n"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "colab": {
+      "name": "Olá, este é o Colaboratory",
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "display_name": "Python 3",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
